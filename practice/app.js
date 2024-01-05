@@ -21,7 +21,7 @@ function getFaqs(req) {
             body: JSON.stringify(req)
         });
         const data = yield res.json();
-        if (data.status === StatusCode.Published) {
+        if (data.status && data.status === StatusCode.Published) {
             return data;
         }
         return [];
