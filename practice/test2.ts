@@ -55,7 +55,7 @@ function isSuccessResponse(res: IResponseSuccess | IResponseFailed): number {
   if(isCheckSuccessResponse(res)) {
     return res.data.databaseId;
   }
-  throw new Error('Response is not successful');
+  throw new Error(res.data.errorMessage);
 }
 
 
