@@ -1,3 +1,4 @@
+
 interface User {
   name: string;
   surname: string;
@@ -26,9 +27,17 @@ function generateError(msg: string):never {
   throw new Error(msg);
 }
 
-function isAdmin(user: User | Admin): user is Admin {
-  return 'role' in user;
+enum Role {
+  Admin = 'admin',
+  SuperAdmin = 'super admin',
+  User = 'user',
 }
+
+
+function isAdmin(user: User | Admin): user is Admin {
+  return (user as Admin).role === Role.Admin;
+}
+
 
 function setSuperAdminRole(user: User | Admin): Admin {
   const newAdmin: Admin = {

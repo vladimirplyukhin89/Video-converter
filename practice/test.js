@@ -12,8 +12,14 @@ const admin = {
 function generateError(msg) {
     throw new Error(msg);
 }
+var Role;
+(function (Role) {
+    Role["Admin"] = "admin";
+    Role["SuperAdmin"] = "super admin";
+    Role["User"] = "user";
+})(Role || (Role = {}));
 function isAdmin(user) {
-    return 'role' in user;
+    return user.role === Role.Admin;
 }
 function setSuperAdminRole(user) {
     const newAdmin = {
