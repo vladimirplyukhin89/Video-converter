@@ -1,33 +1,52 @@
-enum Status {
-  Success = 'success',
-  Failed = 'failed',
+interface User {
+  name: string;
+  surname: string;
+  id: number;
 }
 
-interface IPayment {
-  sum: number,
-  from: number,
-  to: number,
+const user: User = {
+  name: 'John',
+  surname: 'Doe',
+  id: 1,
 }
 
-interface IPaymentSuccessful extends IPayment {
-  databaseId: number,
+interface Admin {
+  name: string;
+  id: number;
+  role: string;
 }
 
-interface IError {
-  errorMessage: string,
-  errorCode: number,
+const admin: Admin = {
+  name: 'John Doe',
+  id: 1234,
+  role: 'admin'
 }
 
-interface ISuccessfulResponse {
-  status: Status.Success,
-  data: IPaymentSuccessful,
+function generateError(msg: string):never {
+  throw new Error(msg);
 }
 
-interface IFailedResponse {
-  status: Status.Failed,
-  data: IError
+function isAdmin(user: User | Admin): user is Admin {
+  return 'role' in user;
 }
 
-function get(): ISuccessfulResponse | IFailedResponse {
-  // по полю status уже определять какой ответ пришел
+function setSuperAdminRole(user: User | Admin): Admin {
+  const newAdmin: Admin = {
+    name: '',
+    id: 0,
+    role: '',
+  }
+  if(isAdmin(user)) {
+    return {
+      ...newAdmin,
+      name: admin.name,
+      id: admin.id,
+      role:'super admin',
+    }
+  }
+  generateError('Пользователь не админ');
 }
+
+setSuperAdminRole(admin);
+
+
